@@ -64,11 +64,7 @@ const BookingPage = () => {
           {booking?.place?.photos.length > 0 &&
             booking?.place.photos.map((photo, index) => (
               <div key={index} className="w-full">
-                <img
-                  src={`http://localhost:5000/uploads/${photo}`}
-                  className=" min-w-full"
-                  alt=""
-                />
+                <img src={photo} className=" min-w-full" alt="" />
               </div>
             ))}
         </div>
@@ -94,12 +90,12 @@ const BookingPage = () => {
     try {
       const {
         data: { key },
-      } = await axios.get("http://localhost:5000/api/getkey");
+      } = await axios.get(`${server}/getkey`);
 
       const {
         data: { order },
       } = await axios.post(
-        `http://localhost:5000/api/bookings/checkout`,
+        `${server}/bookings/checkout`,
         {
           amount,
         },
@@ -120,7 +116,7 @@ const BookingPage = () => {
         name: "AirBnb",
         description: "Book your Bnb",
         order_id: order.id,
-        callback_url: "https://localhost:5000/api/bookings/paymentverification",
+        callback_url: `${server}/bookings/paymentverification`,
         prefill: {
           name: booking?.name,
           contact: booking?.phone,
@@ -141,7 +137,7 @@ const BookingPage = () => {
           // Send the payment details to your backend for verification
           try {
             const { data } = await axios.post(
-              "http://localhost:5000/api/bookings/paymentverification",
+              `${server}/bookings/paymentverification`,
               {
                 paymentId,
                 orderId,
@@ -163,6 +159,8 @@ const BookingPage = () => {
 
             toast.success(data.message);
             console.log(data);
+
+            history("/account/bookings");
           } catch (error) {
             toast.error(error.response.data.message);
             console.log(error);

@@ -95,11 +95,7 @@ const PlaceFront = () => {
           {place?.photos.length > 0 &&
             place.photos.map((photo, index) => (
               <div key={index} className="w-full">
-                <img
-                  src={`http://localhost:5000/uploads/${photo}`}
-                  className=" min-w-full"
-                  alt=""
-                />
+                <img src={photo} className=" min-w-full" alt="" />
               </div>
             ))}
         </div>

@@ -9,6 +9,7 @@ import { server } from "../main.jsx";
 import toast from "react-hot-toast";
 import PlaceImg from "./PlaceImg.jsx";
 import { getToken } from "../api.js";
+import { MdDelete } from "react-icons/md";
 
 const PlacesPage = () => {
   // const { action } = useParams();
@@ -90,13 +91,15 @@ const PlacesPage = () => {
               key={place._id}
               className="bg-gray-200 mt-3 cursor-pointer flex gap-4 p-4 rounded-2xl"
             >
-              <div className="bg-gray-300 w-32 h-32 flex shrink-0">
-                <PlaceImg place={place} />
-              </div>
+              <div className="cursor-pointer flex gap-3 rounded-2xl items-center w-full">
+                <div className="bg-gray-300 w-32 h-32 flex shrink-0">
+                  <PlaceImg place={place} />
+                </div>
 
-              <div className="grow-0 shrink">
-                <h2 className="text-xl">{place.title}</h2>
-                <p className="text-sm mt-2">{place.description}</p>
+                <div className="grow-0 shrink">
+                  <h2 className="text-xl">{place.title}</h2>
+                  <p className="text-sm mt-2">{place.description}</p>
+                </div>
               </div>
             </Link>
           ))}

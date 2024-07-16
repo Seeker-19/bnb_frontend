@@ -5,7 +5,8 @@ import "./index.css";
 import { Router, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
-export const server = "https://bnb-backend-3.onrender.com/api";
+export const server = import.meta.env.VITE_SERVER;
+export const ser = import.meta.env.VITE_SER;
 
 export const Context = createContext();
 

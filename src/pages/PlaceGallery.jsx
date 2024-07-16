@@ -12,29 +12,29 @@ const PlaceGallery = ({ place, setShowAllPhotos, showAllPhotos }) => {
               <img
                 onClick={() => setShowAllPhotos(true)}
                 className="cursor-pointer object-cover aspect-square"
-                src={`http://localhost:5000/uploads/${place?.photos[0]}`}
+                src={place?.photos[0]}
                 alt=""
               />
             )}
           </div>
           <div className="grid gap-2">
             <div className="flex">
-              {place?.photos && (
+              {place?.photos && place?.photos[1] && (
                 <img
                   onClick={() => setShowAllPhotos(true)}
                   className="cursor-pointer aspect-square object-cover"
-                  src={`http://localhost:5000/uploads/${place?.photos[1]}`}
+                  src={place?.photos[1]}
                   alt=""
                 />
               )}
             </div>
 
             <div className="flex">
-              {place?.photos && (
+              {place?.photos && place?.photos[2] && (
                 <img
                   onClick={() => setShowAllPhotos(true)}
                   className="cursor-pointer aspect-square object-cover"
-                  src={`http://localhost:5000/uploads/${place?.photos[2]}`}
+                  src={place?.photos[2]}
                   alt=""
                 />
               )}

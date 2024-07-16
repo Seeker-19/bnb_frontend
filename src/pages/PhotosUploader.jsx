@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { server } from "../main.jsx";
+import { ser, server } from "../main.jsx";
 import toast from "react-hot-toast";
 
 const PhotosUploader = ({
@@ -29,8 +29,16 @@ const PhotosUploader = ({
 
       setLoading(false);
 
+      console.log(data);
+
+      // const fileUrls = data.map(
+      //   (file) => `https://bnb-backend-3.onrender.com/uploads/${data.dest}`
+      // );
+
+      const fileUrl = `${ser}/uploads/${data.dest}`;
+
       setAddedPhotos((prev) => {
-        return [...prev, data.dest];
+        return [...prev, fileUrl];
       });
 
       //console.log(addedPhotos);
@@ -53,6 +61,8 @@ const PhotosUploader = ({
       data.append("photos", files[i]);
     }
 
+    console.log(data);
+
     await axios
       .post(`${server}/users/upload`, data, {
         headers: {
@@ -64,16 +74,16 @@ const PhotosUploader = ({
         const { files } = response.data;
 
         //console.log(files);
+        const fileUrls = files.map((file) => `${ser}/${file}`);
 
         setAddedPhotos((prev) => {
-          return [...prev, ...files];
+          return [...prev, ...fileUrls];
         });
       })
       .catch((error) => console.log(error));
   };
 
-  const removePhoto = (filename,event) => {
-    
+  const removePhoto = (filename, event) => {
     event.preventDefault();
 
     setAddedPhotos((obj) => {
@@ -81,17 +91,17 @@ const PhotosUploader = ({
     });
   };
 
-  const selectPhoto=(filename,e)=>{
-
+  const selectPhoto = (filename, e) => {
     e.preventDefault();
 
-
-    setAddedPhotos([filename,...addedPhotos.filter(photo=>photo!=filename)]);
-
-  }
+    setAddedPhotos([
+      filename,
+      ...addedPhotos.filter((photo) => photo != filename),
+    ]);
+  };
 
   //relative absolute
-  
+
   useEffect(() => {
     console.log(addedPhotos);
   }, [addedPhotos]);
@@ -120,12 +130,9 @@ const PhotosUploader = ({
         {(addedPhotos ?? []).length > 0 &&
           addedPhotos.map((link, index) => (
             <div key={index} className="h-32 flex relative">
-              <img
-                className="rounded-2xl object-cover w-full"
-                src={`http://localhost:5000/uploads/${link}`}
-              />
+              <img className="rounded-2xl object-cover w-full" src={link} />
               <button
-                onClick={(event) => removePhoto(link,event)}
+                onClick={(event) => removePhoto(link, event)}
                 className="cursor-pointer absolute bottom-2 right-2 text-white bg-black p-1 px-2 py-2 rounded-xl bg-opacity-50"
               >
                 <svg
@@ -144,7 +151,7 @@ const PhotosUploader = ({
                 </svg>
               </button>
               <button
-                onClick={(e) => selectPhoto(link,e)}
+                onClick={(e) => selectPhoto(link, e)}
                 className="cursor-pointer absolute bottom-2 left-2 text-white bg-black p-1 px-2 py-2 rounded-xl bg-opacity-50"
               >
                 {link === addedPhotos[0] && (
